@@ -28,11 +28,14 @@ export default function DashboardPage() {
         setLoading(true);
         setError("");
 
-        const response = await fetch("http://localhost:4000/tasks", {
-          headers: {
-            Authorization: `Bearer ${token}`,
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/tasks`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           },
-        });
+        );
 
         if (!response.ok) {
           throw new Error("Error al obtener tareas");
@@ -61,7 +64,7 @@ export default function DashboardPage() {
     try {
       setError("");
 
-      const response = await fetch("http://localhost:4000/tasks", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -90,16 +93,19 @@ export default function DashboardPage() {
     try {
       setError("");
 
-      const response = await fetch(`http://localhost:4000/tasks/${taskId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/tasks/${taskId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            completed: !completed,
+          }),
         },
-        body: JSON.stringify({
-          completed: !completed,
-        }),
-      });
+      );
 
       if (!response.ok) {
         throw new Error("Error actualizando tarea");
@@ -122,12 +128,15 @@ export default function DashboardPage() {
     try {
       setError("");
 
-      const response = await fetch(`http://localhost:4000/tasks/${taskId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/tasks/${taskId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       if (!response.ok) {
         throw new Error("Error eliminando tarea");
